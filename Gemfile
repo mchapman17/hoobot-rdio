@@ -1,6 +1,9 @@
 source 'https://rubygems.org'
 
-gem "sinatra"
-gem "activerecord"
-gem "sinatra-activerecord"
-gem "pg"
+gem 'sinatra'
+gem 'omniauth-rdio'
+
+group :development do
+  gem 'heroku'
+  gem 'foreman'
+end

@@ -1,15 +1,29 @@
 require 'sinatra'
-require 'sinatra/activerecord'
-require './environments'
 require 'json'
+require 'rest-client'
+require 'omniauth'
+require 'omniauth-rdio'
 
-class Quote < ActiveRecord::Base; end
+use Rack::Session::Cookie, key: 'rack.session',
+                           domain: 'localhost',
+                           path: '/',
+                           expire_after: 2592000, # In seconds
+                           secret: 'something123'
 
+use OmniAuth::Builder do
+  provider :rdio, "he48cun99f34s44mghhc8449", "dQvxXN7Teq"
+end
 
-get '/?:number?' do
-  content_type :json
-  number = Integer(params[:number] || 1) rescue 1
-  number = 10 if number > 10
-  @quotes = Quote.limit( number ).order( "RANDOM()" )
-  @quotes.to_json
+post '/auth' do
+  verifier = request.env['rack.request.query_hash']['oauth_verifier']
+  token = request.env['rack.request.query_hash']['oauth_token']
+
+  auth = request.env['omniauth.auth']
+
+  request.env.to_s
+  # result = RestClient.post('http://api.rdio.com/oauth/access_token/',
+  #                         { oauth_verifier: verifier,
+  #                           oauth_token: token })
+
+  # puts result
 end
