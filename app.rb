@@ -10,10 +10,10 @@ use Rack::Session::Cookie, key: 'rack.session',
                            secret: 'something123'
 
 use OmniAuth::Builder do
-  provider :rdio, "he48cun99f34s44mghhc8449", "dQvxXN7Teq"
+  provider :rdio, ENV["hoobot_rdio_consumer"], ENV["hoobot_rdio_secret"]
 end
 
-post '/auth' do
+get '/auth' do
   verifier = request.env['rack.request.query_hash']['oauth_verifier']
   token = request.env['rack.request.query_hash']['oauth_token']
 
