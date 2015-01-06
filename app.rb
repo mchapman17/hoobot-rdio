@@ -1,6 +1,5 @@
 require 'sinatra'
 require 'json'
-require 'rest-client'
 require 'omniauth'
 require 'omniauth-rdio'
 
@@ -21,9 +20,4 @@ post '/auth' do
   auth = request.env['omniauth.auth']
 
   request.env.to_s
-  # result = RestClient.post('http://api.rdio.com/oauth/access_token/',
-  #                         { oauth_verifier: verifier,
-  #                           oauth_token: token })
-
-  # puts result
 end
